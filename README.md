@@ -1,0 +1,1 @@
+This project intends to keep track of finances, and help visualise those with graphs.
