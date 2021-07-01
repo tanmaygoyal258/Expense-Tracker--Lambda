@@ -5,7 +5,7 @@ With Expense Tracker, no need to fear any sort of billings and finances anymore.
 
 Install and update using pip:
 ```
-                $ pip install -U Flask
+$ pip install -U Flask
 ```
 To start the app, run the following: 
 ```
