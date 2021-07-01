@@ -5,3 +5,8 @@ from app import app
 @app.route('/home')
 def home():
     return render_template("home.html")
+
+@app.route('/new')
+def new():
+    return render_template("new.html")
+
