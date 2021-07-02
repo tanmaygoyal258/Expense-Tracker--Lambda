@@ -1,7 +1,7 @@
 #consider today to be 2021-06-19
 
 import sqlite3 as db
-import numpy as np
+#import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -173,13 +173,22 @@ def graph_by_category(category):
     plt.title("Yearly")
     plt.show()
     
+def row_count():
+    conn = db.connect("expenses.db")
+    cur = conn.cursor()
+    sql = '''
+    select * from expenses
+    '''
+    cur.execute(sql)
+    results = cur.fetchall()
+    return len(results)   
 
 init()
 init_values()
-#view_all()
+view_all()
 #view_by_category("education")
 #view_by_date("2020-08-25", "2020-08-25")
 #graph_by_dates("2020-01-01" , "2020-12-31")
 #graph_by_category("health and personal care")
-graph_by_category("education")
+#graph_by_category("education")
 
