@@ -108,7 +108,7 @@ def home():
 
 @app.route('/new',methods = ['GET' , 'POST'])
 def new():
-    return render_template("new.html")
+    return render_template("form.html")
 
 @app.route ('/submit' , methods = ['GET' , 'POST'])  
 def submit():
