@@ -33,3 +33,4 @@ Then the script can be simply be executed as:
 ```
 ./run.py
 ```
+Credit: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world-legacy
