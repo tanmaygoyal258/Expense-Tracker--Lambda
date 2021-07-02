@@ -1,0 +1,27 @@
+<html>
+<head>
+<title> Home- Expense Tracker </title>
+</head>
+<body>
+    <h2 align  = "center"> Expense Tracker </h2>
+    <hr>
+    {% extends "base.html" %}
+
+    {% block content %}
+    Request to enter the following expense: 
+    <br>
+    Date : {{date}}
+    <br>
+    Category : {{category}}
+    <br>
+    Amount : {{amount}}
+    <br>
+    Additional Comments: {{comment}}
+    <br>
+    <br>
+    {{message}}
+    {% endblock %}
+
+
+</body>
+</html>
