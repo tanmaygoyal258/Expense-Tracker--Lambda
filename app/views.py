@@ -2,6 +2,9 @@ from flask import render_template, redirect, request
 from app import app
 
 import sqlite3 as db
+import pandas as pd
+
+global view_by
 
 def init():
     conn = db.connect("expenses.db")
@@ -35,8 +38,10 @@ def view_all():
     sql1 = '''
     select * from expenses
     '''
-    results = pd.read_sql_query(sql1,conn)
-    print(results)
+    cur.execute(sql1)
+    results = cur.fetchall()
+    #results = pd.read_sql_query(sql1,conn)
+    #print(results)
     sql2 = '''
     select sum(amount) from expenses
     '''
@@ -53,6 +58,7 @@ def init_values():
     '''
     cur.execute(sql)
     results = cur.fetchall()
+    
     if len(results)==0:
         insert("2021-06-19", "rent" , 20000, "")
         insert("2021-06-19" , "transport", 2345,"")
@@ -90,6 +96,55 @@ def delete(date, price):
 
     cur.execute(sql)
     conn.commit()
+
+def view_by_category(category):
+    conn = db.connect("expenses.db")
+    cur = conn.cursor()
+    sql1 = '''
+    select * from expenses where category = '{}'
+    '''.format(category)
+    cur.execute(sql1)
+    results = cur.fetchall()
+    #results = pd.read_sql_query(sql1,conn)
+    #print(results)
+    sql2 = '''
+    select sum(amount) from expenses
+    '''
+    cur.execute(sql2)
+    total = cur.fetchone()
+    print("\n Total expense  = {}".format(total[0]))
+    sql3 = '''
+    select sum(amount) from expenses where category = '{}'
+    '''.format(category)
+    cur.execute(sql3)
+    total_category = cur.fetchone()
+    print("\n Total expense in the category = {}".format(total_category[0]))
+    return results, total[0], total_category[0]
+
+def view_by_date(date1,date2):
+    conn = db.connect("expenses.db")
+    cur = conn.cursor()
+    sql1 = '''
+    select * from expenses where date between '{}' and '{}'
+    '''.format(date1, date2)
+    cur.execute(sql1)
+    results = cur.fetchall()
+    #results = pd.read_sql_query(sql1,conn)
+    #print(results)
+    sql2 = '''
+    select sum(amount) from expenses
+    '''
+    cur.execute(sql2)
+    total = cur.fetchone()
+    print("\n Total expense  = {}".format(total[0]))
+    sql3 = '''
+    select sum(amount) from expenses where date between '{}' and '{}'
+    '''.format(date1, date2)
+    cur.execute(sql3)
+    total_category = cur.fetchone()
+    print("\n Total expense in between these dates = {}".format(total_category[0]))
+    return results , total[0], total_category[0]
+
 
 def row_count():
     conn = db.connect("expenses.db")
@@ -129,3 +184,44 @@ def submit():
                             category = category,
                             amount = amount,
                             message = message)
+
+@app.route("/view", methods = ['GET' , 'POST'])
+def view():
+    return render_template("view_database.html")
+
+
+@app.route("/view_c_or_d", methods = ['GET' , 'POST'])
+def view_c_or_d():
+    view_by = request.form['view']
+    if view_by == 'view all': return redirect("/view_all_results")
+    elif view_by=="view by category": return redirect("/view_category_choice")
+    else: return redirect("/view_date_choice")
+
+
+@app.route("/view_all_results" , methods = ['GET' , 'POST'])
+def view_all_results():
+        results , total = view_all()
+        return render_template("view_result_data.html" , results = results , total = total)
+
+@app.route("/view_category_choice" , methods = ['GET' , 'POST'])
+def view_category_choice():
+        return render_template("view_database.html" ,opt=2)
+
+@app.route("/view_date_choice" , methods = ['GET' , 'POST'])
+def view_date_choice():
+        return render_template("view_database.html" ,opt=3)
+
+
+@app.route("/view_category_results" , methods = ['GET' , 'POST'])
+def view_category_results():    
+        category = request.form['view_category']
+        results , total , total_c = view_by_category(category)
+        return render_template("view_result_data.html" , results = results , total = total, 
+                                                            total_c = total_c)
+@app.route("/view_date_results" , methods = ['GET' , 'POST'])
+def view_date_results():
+        date1 = request.form['from']
+        date2 = request.form['to']
+        results , total , total_c = view_by_date(date1, date2)
+        return render_template("view_result_data.html" , results = results , total = total, 
+                                                            total_c = total_c)
