@@ -1,0 +1,53 @@
+<html>
+<head>
+<title> Home- Expense Tracker </title>
+</head>
+<body> 
+    <h2 align  = "center"> Expense Tracker </h2>
+    <hr>
+    {% extends "base.html" %}
+    {% block content %}
+    <form method  = "post" action = "/view_c_or_d">
+        <label for="view"> View By: </label></br>
+    <select id="view" name  = "view">
+        <option value = "view all"> View All </option>
+        <option value = "view by category"> View By Category </option>
+        <option value = "view by date"> View By Date </option>
+    </select>
+    <input type="submit" id ="Submit" name="Submit">
+    </form>
+    
+
+
+    {% if opt==2 %}
+    <form method = "post" action = "/view_category_results">
+        <label for="view_category"> Category: </label></br>
+       <select id="view_category" name  = "view_category">
+            <option value = "home and utilities"> Home and Utilities</option>
+            <option value = "rent"> Rent </option>
+            <option value = "transport"> Transport</option>
+            <option value = "groceries">Groceries </option> 
+            <option value = "insurance"> Insurance </option>
+            <option value = "bills and emi"> Bills and EMI</option>
+            <option value = "education"> Education</option>
+            <option value = "health and personal care"> Health and Personal Care </option>
+       </select>
+       <input type= 'submit' name = 'submit category' id = "submit category">
+    </form>
+    {% endif %}
+
+    {% if opt==3 %}
+    <form method = "post" action = "/view_date_results">
+        <label for = "from"> From </label> <br>
+        <input type="date" id="from" name="from"><br><br>
+        <br>
+        <br>
+        <label for = "to"> To </label> <br>
+        <input type="date" id="to" name="to"><br><br>
+        <input type= 'submit' name = 'submit dates' id = "submit dates">
+    </form>
+    {% endif %}
+
+    {% endblock %}
+</body>
+</html>
