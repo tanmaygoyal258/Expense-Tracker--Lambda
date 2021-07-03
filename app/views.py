@@ -4,7 +4,6 @@ from app import app
 import sqlite3 as db
 import pandas as pd
 
-global view_by
 
 def init():
     conn = db.connect("expenses.db")
