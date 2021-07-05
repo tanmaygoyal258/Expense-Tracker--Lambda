@@ -2,7 +2,6 @@ from flask import render_template, redirect, request
 from app import app
 
 import sqlite3 as db
-import pandas as pd
 
 
 def init():
@@ -200,7 +199,9 @@ def view_c_or_d():
 @app.route("/view_all_results" , methods = ['GET' , 'POST'])
 def view_all_results():
         results , total = view_all()
-        return render_template("view_result_data.html" , results = results , total = total)
+        message = "python3 graphs.py --view_by all"
+        return render_template("view_result_data.html" , results = results , total = total,\
+                                message = message)
 
 @app.route("/view_category_choice" , methods = ['GET' , 'POST'])
 def view_category_choice():
@@ -214,13 +215,16 @@ def view_date_choice():
 @app.route("/view_category_results" , methods = ['GET' , 'POST'])
 def view_category_results():    
         category = request.form['view_category']
+        message = "python3 graphs.py --view_by category --category '" + category + "'"
         results , total , total_c = view_by_category(category)
         return render_template("view_result_data.html" , results = results , total = total, 
-                                                            total_c = total_c)
+                                total_c = total_c, message = message)
+
 @app.route("/view_date_results" , methods = ['GET' , 'POST'])
 def view_date_results():
         date1 = request.form['from']
         date2 = request.form['to']
+        message = "python3 graphs.py --view_by date --from_date " + date1 + " --to_date " +date2
         results , total , total_c = view_by_date(date1, date2)
         return render_template("view_result_data.html" , results = results , total = total, 
-                                                            total_c = total_c)
+                                total_c = total_c , message = message)
