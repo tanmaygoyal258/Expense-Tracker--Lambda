@@ -81,14 +81,14 @@ def graph_all():
 
 parser = argparse.ArgumentParser()
 choices_view_by = ['all' , 'category' , 'date']
-choices_category = ["home and utilities", 
-                    "rent",
-                    "transport", 
-                    "groceries",
-                    "insurance",  
-                    "bills and emi", 
-                    "education",
-                    "health and personal care"]
+choices_category = ['home and utilities', 
+                    'rent',
+                    'transport', 
+                    'groceries',
+                    'insurance',  
+                    'bills and emi', 
+                    'education',
+                    'health and personal care']
 parser.add_argument("--view_by" , choices = choices_view_by , default = choices_view_by[0])
 parser.add_argument("--category", choices = choices_category, \
                     required = (choices_view_by[1] in argv))
