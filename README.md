@@ -33,4 +33,19 @@ Then the script can be simply be executed as:
 ```
 ./run.py
 ```
+Once run.py is up and running, open up your web broweser and type in:
+```
+http://localhost:5000
+```
+To exit the server, press:
+```
+Control-C
+```
+
 Credit: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world-legacy
+
+
+To view graphs, copy the appropriate command line argument give on the page, and copy it into your terminal.
+
+
+
