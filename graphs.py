@@ -4,6 +4,10 @@ import sqlite3 as db
 #import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import argparse
+from sys import argv
+
+
 
 def graph_by_dates(date1,date2):
     conn = db.connect("expenses.db")
@@ -69,9 +73,30 @@ def graph_all():
     plt.title("Category Wise")
     plt.show()
 
-
-
 #graph_by_dates("2020-01-01" , "2020-12-31")
 #graph_by_category("health and personal care")
 #graph_by_category("education")
 #graph_all()
+
+
+parser = argparse.ArgumentParser()
+choices_view_by = ['all' , 'category' , 'date']
+choices_category = ["home and utilities", 
+                    "rent",
+                    "transport", 
+                    "groceries",
+                    "insurance",  
+                    "bills and emi", 
+                    "education",
+                    "health and personal care"]
+parser.add_argument("--view_by" , choices = choices_view_by , default = choices_view_by[0])
+parser.add_argument("--category", choices = choices_category, \
+                    required = (choices_view_by[1] in argv))
+parser.add_argument("--from_date" , required = (choices_view_by[2] in argv))
+parser.add_argument("--to_date" , required = (choices_view_by[2] in argv))
+
+in_args = parser.parse_args()
+
+if (in_args.view_by==choices_view_by[0]): graph_all()
+elif (in_args.view_by==choices_view_by[1]):graph_by_category(in_args.category)
+else: graph_by_dates(in_args.from_date , in_args.to_date)
